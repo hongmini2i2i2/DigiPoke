@@ -1,5 +1,4 @@
-import { Boot } from './scenes/Boot';
-import { Game } from './scenes/Game';
+import { InGameHome } from './scenes/InGameHome';
 import { GameOver } from './scenes/GameOver';
 import { MainMenu } from './scenes/MainMenu';
 import { Preloader } from './scenes/Preloader';
@@ -8,19 +7,18 @@ import { Preloader } from './scenes/Preloader';
 //  https://newdocs.phaser.io/docs/3.70.0/Phaser.Types.Core.GameConfig
 const config = {
     type: Phaser.AUTO,
-    width: 1024,
-    height: 768,
+    width: 1920,
+    height: 1080,
     parent: 'game-container',
-    backgroundColor: '#028af8',
+    backgroundColor: '#000000',
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
     scene: [
-        Boot,
         Preloader,
         MainMenu,
-        Game,
+        InGameHome,
         GameOver
     ]
 };

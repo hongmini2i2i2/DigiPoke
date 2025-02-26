@@ -9,19 +9,19 @@ export class MainMenu extends Scene
 
     create ()
     {
-        this.add.image(512, 384, 'background');
+        //this.add.image(512, 384, 'background');
 
-        this.add.image(512, 300, 'logo');
+        let logo = this.add.image(960, 450, 'logo');
+        logo.setScale(0.2);
 
-        this.add.text(512, 460, 'Main Menu', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
+        this.add.text(960, 700, 'Start Game', {
+            fontFamily: 'Arial Black', fontSize: 32, color: '#ffffff',
             align: 'center'
         }).setOrigin(0.5);
 
         this.input.once('pointerdown', () => {
 
-            this.scene.start('Game');
+            this.scene.start('InGameHome');
 
         });
     }
