@@ -2,7 +2,7 @@ import { Scene } from 'phaser';
 import logo from '../assets/images/DigiPokeLogoUpScale.png';
 import VeemonWalk1 from '../assets/spritesheets/Veemon/Veemon_1.png';
 import VeemonWalk2 from '../assets/spritesheets/Veemon/Veemon_2.png';
-import homeBackground from '../assets/images/HomeBackaground.json';
+import homeBackground from '../assets/images/HomeBackground.json';
 import backgroundTileAsset from '../assets/images/pixel-cyberpunk-interior.png';
 
 export class Preloader extends Scene
@@ -37,6 +37,7 @@ export class Preloader extends Scene
         //  Stting path - Load the assets for the game - Replace with your own assets
         this.load.image('logo', logo);
         // Veemon Walk SpriteSheet individual image
+        this.load.image('VeemonStatic', VeemonWalk1);
         this.load.image('VeemonWalk1', VeemonWalk1);
         this.load.image('VeemonWalk2', VeemonWalk2);
         // Playing Scene Home Background
