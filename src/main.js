@@ -20,7 +20,16 @@ const config = {
         MainMenu,
         InGameHome,
         GameOver
-    ]
-};
+    ],
+    physics: {
+        default: 'arcade', // Arcade Physics 사용
+        arcade: {
+            //gravity: { y: 300 }, // 필요 시 중력 설정
+            debug: false
+        }
+    },
+};  
 
-export default new Phaser.Game(config);
+const game = new Phaser.Game(config);
+
+export default game;
