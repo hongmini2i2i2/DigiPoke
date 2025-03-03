@@ -58,11 +58,10 @@ export class Preloader extends Scene
         this.anims.create({
             key: 'VeemonWalk',
             frames: [
-                { key: 'VeemonWalk1'},
-                { key: 'VeemonWalk2'}
+                { key: 'VeemonWalk2'},
+                { key: 'VeemonWalk1'}
             ],
-            frameRate: 8,
-            repeat: -1
+            frameRate: 8
         })
 
         this.anims.create({

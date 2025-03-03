@@ -27,25 +27,22 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     move(direction) {
         
         this.isMoving = true;
+        this.anims.play('VeemonWalk', true);
         clearTimeout(this.moveTimeout);
         this.moveTimeout = null;
 
         switch (direction) {
             case Direction.Up:
-                this.anims.play('VeemonWalk', true);
                 this.y -= Player.PLAYER_SPEED;
                 break;
             case Direction.Down:
-                this.anims.play('VeemonWalk', true);
                 this.y += Player.PLAYER_SPEED;
                 break;
             case Direction.Left:
-                this.anims.play('VeemonWalk', true);
                 this.x -= Player.PLAYER_SPEED;
                 this.flipX = false;
                 break;
             case Direction.Right:
-                this.anims.play('VeemonWalk', true);
                 this.x += Player.PLAYER_SPEED;
                 this.flipX = true;
                 break;
@@ -54,32 +51,52 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     randomMove(direction) {
         this.anims.play('VeemonWalkRandom');
-        if(direction == Direction.Left){
-            this.x -= Player.RANDOM_PLAYER_SPEED;
-            this.flipX = false;
-        } else {
-            this.x += Player.RANDOM_PLAYER_SPEED;
-            this.flipX = true;
+        switch (direction) {
+            case Direction.Up:
+                this.y -= Player.RANDOM_PLAYER_SPEED;
+                break;
+            case Direction.Down:
+                this.y += Player.RANDOM_PLAYER_SPEED;
+                break;
+            case Direction.Left:
+                this.x -= Player.RANDOM_PLAYER_SPEED;
+                this.flipX = false;
+                break;
+            case Direction.Right:
+                this.x += Player.RANDOM_PLAYER_SPEED;
+                this.flipX = true;
+                break;
         }
     }
 
-    stop() { //움직이고 있는 상태이면 timeout삭제로직 추가
+    stop() {
         if (!this.moveTimeout) {
-            this.isMoving ? this.anims.stop() : null
+            this.isMoving = false;
+            if (this.isMoving) return; // if the status is ismoving, do not start this.
+            this.isMoving ? this.anims.stop() : null // stop the former anims
             this.moveTimeout = setTimeout(() => {
 
-                let randomAction = Phaser.Math.Between(0, 2);
+                let randomAction = Phaser.Math.Between(0, 4);
             
-                if(randomAction == 0) {
-                    this.anims.play('VeemonStatic');
-                }   else if (randomAction == 1) {
-                    this.randomMove(Direction.Left);
-                }   else {
-                    this.randomMove(Direction.Right);
+                switch (randomAction) {
+                    case 0: 
+                        this.anims.play('VeemonStatic');
+                        break;
+                    case 1:
+                        this.randomMove(Direction.Left);
+                        break;
+                    case 2:
+                        this.randomMove(Direction.Right);
+                        break;
+                    case 3:
+                        this.randomMove(Direction.Up);
+                        break;
+                    case 4:
+                        this.randomMove(Direction.Down);
+                        break;
                 }
-    
+
                 this.moveTimeout = null;
-                this.isMoving = false;
 
             }
             , 1500);
