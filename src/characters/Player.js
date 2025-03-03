@@ -9,7 +9,7 @@ export const Direction = Object.freeze({
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     static PLAYER_SPEED = 300;
-    static RANDOM_PLAYER_SPEED = 500;
+    static RANDOM_PLAYER_SPEED = 300;
 
     constructor(scene) {
         super(scene, 110, 250, "VeemonStatic");
@@ -27,8 +27,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.body.setOffset(this.width * 0.1, this.height * 0.8);
 
 
+        this.setDrag(2500, 2500); // set resist, prevent sliding by velocity
+        this.setMaxVelocity(Player.PLAYER_SPEED, Player.PLAYER_SPEED);
+    }
 
-        this.setDrag(2000, 2000); // set resist, prevent sliding by velocity
+    randomMoveSetting() {
+        this.setDrag(100, 100);
+        this.setMaxVelocity(Player.RANDOM_PLAYER_SPEED, Player.RANDOM_PLAYER_SPEED);
+    }
+
+    moveSetting() {
+        this.setDrag(2500, 2500);
         this.setMaxVelocity(Player.PLAYER_SPEED, Player.PLAYER_SPEED);
     }
 
@@ -37,6 +46,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.anims.play('VeemonWalk', true);
         clearTimeout(this.moveTimeout);
         this.moveTimeout = null;
+        this.moveSetting();
 
         switch (direction) {
             case Direction.Up:
@@ -74,6 +84,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.flipX = true;
                 break;
         }
+
     }
 
     stop() {
@@ -92,15 +103,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                         break;
                     case 1:
                         this.randomMove(Direction.Left);
+                        this.randomMoveSetting();
                         break;
                     case 2:
                         this.randomMove(Direction.Right);
+                        this.randomMoveSetting();
                         break;
                     case 3:
                         this.randomMove(Direction.Up);
+                        this.randomMoveSetting();
                         break;
                     case 4:
                         this.randomMove(Direction.Down);
+                        this.randomMoveSetting();
                         break;
                 }
                 this.moveTimeout = null;

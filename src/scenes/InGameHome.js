@@ -44,11 +44,10 @@
         update() 
         {
             this.movePlayerManager();
-            this.Player.setCollideWorldBounds(true);
         }
         ///////Methods///////
         movePlayerManager() {
-            let isMoving = false; // 이동 여부를 저장하는 변수
+            let isMoving = false;
         
             if (this.cursorKeys.left.isDown || this.wasdKeys.left.isDown) {
                 this.Player.move(Direction.Left);
