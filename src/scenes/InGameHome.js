@@ -18,7 +18,11 @@
             this.layers.push(this.map.createLayer("Tile Layer 1", this.tileset, 0, 0));
             this.layers.push(this.map.createLayer("Tile Layer 2", this.tileset, 0, 0));
             this.layers.push(this.map.createLayer("Tile Layer 3", this.tileset, 0, 0));
-        
+            
+            this.layers.forEach(layer => {
+                layer.setCollisionByProperty({ collide: true }); 
+            });
+
             this.cursorKeys = this.input.keyboard.createCursorKeys(); //arrow key
             this.wasdKeys = this.input.keyboard.addKeys({
                 'up': Phaser.Input.Keyboard.KeyCodes.W, 
@@ -31,6 +35,9 @@
             this.Player.anims.play('VeemonStatic');
 
             this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+            this.layers.forEach(layer => {
+                this.physics.add.collider(this.Player, layer);
+            });
 
         }
 

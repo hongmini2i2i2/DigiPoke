@@ -8,12 +8,12 @@ export const Direction = Object.freeze({
 });
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
-    static PLAYER_SPEED = 4;
-    static RANDOM_PLAYER_SPEED = 20;
+    static PLAYER_SPEED = 300;
+    static RANDOM_PLAYER_SPEED = 500;
 
     constructor(scene) {
         super(scene, 110, 250, "VeemonStatic");
-        this.scale = 1.8;
+        this.scale = 1.6;
         this.alpha = 1;
         
         scene.physics.world.enable(this);
@@ -22,10 +22,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setOrigin(0.5, 0.5);
         this.isMoving = false;
         this.moveTimeout = null;
+
+        //this.body.setSize(this.width * 0.5, this.height * 0.5);
+        this.body.setOffset(this.width * 0.1, this.height * 0.8);
+
+
+
+        this.setDrag(2000, 2000); // set resist, prevent sliding by velocity
+        this.setMaxVelocity(Player.PLAYER_SPEED, Player.PLAYER_SPEED);
     }
 
     move(direction) {
-        
         this.isMoving = true;
         this.anims.play('VeemonWalk', true);
         clearTimeout(this.moveTimeout);
@@ -33,17 +40,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         switch (direction) {
             case Direction.Up:
-                this.y -= Player.PLAYER_SPEED;
+                this.setVelocityY(-Player.PLAYER_SPEED);
                 break;
             case Direction.Down:
-                this.y += Player.PLAYER_SPEED;
+                this.setVelocityY(Player.PLAYER_SPEED);
                 break;
             case Direction.Left:
-                this.x -= Player.PLAYER_SPEED;
+                this.setVelocityX(-Player.PLAYER_SPEED);
                 this.flipX = false;
                 break;
             case Direction.Right:
-                this.x += Player.PLAYER_SPEED;
+                this.setVelocityX(Player.PLAYER_SPEED);
                 this.flipX = true;
                 break;
         }
@@ -53,17 +60,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.anims.play('VeemonWalkRandom');
         switch (direction) {
             case Direction.Up:
-                this.y -= Player.RANDOM_PLAYER_SPEED;
+                this.setVelocityY(-Player.RANDOM_PLAYER_SPEED);
                 break;
             case Direction.Down:
-                this.y += Player.RANDOM_PLAYER_SPEED;
+                this.setVelocityY(Player.RANDOM_PLAYER_SPEED);
                 break;
             case Direction.Left:
-                this.x -= Player.RANDOM_PLAYER_SPEED;
+                this.setVelocityX(-Player.RANDOM_PLAYER_SPEED);
                 this.flipX = false;
                 break;
             case Direction.Right:
-                this.x += Player.RANDOM_PLAYER_SPEED;
+                this.setVelocityX(Player.RANDOM_PLAYER_SPEED);
                 this.flipX = true;
                 break;
         }
@@ -72,12 +79,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     stop() {
         if (!this.moveTimeout) {
             this.isMoving = false;
-            if (this.isMoving) return; // if the status is ismoving, do not start this.
-            this.isMoving ? this.anims.stop() : null // stop the former anims
-            this.moveTimeout = setTimeout(() => {
+            if (this.isMoving) return;
 
+            this.setVelocity(0, 0);
+            this.isMoving ? this.anims.stop() : null;
+
+            this.moveTimeout = setTimeout(() => {
                 let randomAction = Phaser.Math.Between(0, 4);
-            
                 switch (randomAction) {
                     case 0: 
                         this.anims.play('VeemonStatic');
@@ -95,11 +103,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                         this.randomMove(Direction.Down);
                         break;
                 }
-
                 this.moveTimeout = null;
-
-            }
-            , 1500);
+            }, 2000);
         }
     }
 }
