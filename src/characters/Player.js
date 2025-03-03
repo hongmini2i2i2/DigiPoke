@@ -9,7 +9,7 @@ export const Direction = Object.freeze({
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     static PLAYER_SPEED = 300;
-    static RANDOM_PLAYER_SPEED = 300;
+    static RANDOM_PLAYER_SPEED = 800;
 
     constructor(scene) {
         super(scene, 110, 250, "VeemonStatic");
@@ -32,7 +32,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     randomMoveSetting() {
-        this.setDrag(100, 100);
         this.setMaxVelocity(Player.RANDOM_PLAYER_SPEED, Player.RANDOM_PLAYER_SPEED);
     }
 
