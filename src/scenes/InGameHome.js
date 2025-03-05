@@ -135,7 +135,7 @@ export class InGameHome extends Scene
 
             this.nameTag = this.add.dom(tile.x, tile.y - 50, 'div', `
 
-               background-color: white;
+                background-color: white;
                 border-radius: 3px;
                 color: navy;
                 padding: 5px;
@@ -146,18 +146,18 @@ export class InGameHome extends Scene
                 text-align: center;
                 font-size: 25px;
                 font-weight: bold;
-                opacity: 0.8;
+                box-shadow: 12px 12px 2px 1px navy;
 
             `, tile.action);
 
             switch(tile.action) {
                 case 'navigate': {
-                    this.nameTag.setPosition(180, 90);
+                    this.nameTag.setPosition(175, 90);
                     this.nameTag.setText('Adventure');
                     break;
                 }
                 case 'sleep': {
-                    this.nameTag.setPosition(480, 240);
+                    this.nameTag.setPosition(480, 230);
                     this.nameTag.setText('Sleep');
                     break;
                 }
@@ -173,7 +173,7 @@ export class InGameHome extends Scene
                 }
             }
         }
-        this.nameTag.setAlpha(0.5);
+        this.nameTag.setAlpha(0.7);
         this.nameTag.setVisible(true);
         this.nameTags.push(this.nameTag);
     }
