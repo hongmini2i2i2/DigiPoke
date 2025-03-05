@@ -140,9 +140,9 @@ export class InGameHome extends Scene
                 color: navy;
                 padding: 5px;
                 width: 120px;
-                height: 30px;
+                height: 20px;
                 z-index: 0;
-                line-height: 30px;
+                line-height: 20px;
                 text-align: center;
                 font-size: 25px;
                 font-weight: bold;
@@ -151,6 +151,11 @@ export class InGameHome extends Scene
             `, tile.action);
 
             switch(tile.action) {
+                case 'navigate': {
+                    this.nameTag.setPosition(180, 90);
+                    this.nameTag.setText('Adventure');
+                    break;
+                }
                 case 'sleep': {
                     this.nameTag.setPosition(480, 240);
                     this.nameTag.setText('Sleep');
