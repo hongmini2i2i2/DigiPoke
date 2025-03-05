@@ -21,10 +21,13 @@ const config = {
         InGameHome,
         GameOver
     ],
+    dom: {
+        createContainer: true 
+    },
     physics: {
-        default: 'arcade', // Arcade Physics 사용
+        default: 'arcade',
         arcade: {
-            //gravity: { y: 300 }, // 필요 시 중력 설정
+            //gravity: { y: 300 },
             debug: false
         }
     },
