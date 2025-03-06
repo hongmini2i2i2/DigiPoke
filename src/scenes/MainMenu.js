@@ -14,8 +14,8 @@ export class MainMenu extends Scene
         let logo = this.add.image(960, 450, 'logo');
         logo.setScale(0.2);
 
-        this.add.text(960, 700, 'Start Game', {
-            fontFamily: 'Arial Black', fontSize: 32, color: '#ffffff',
+        this.add.text(960, 700, 'Press To Start', {
+            fontFamily: 'Arial Black', fontSize: 24, color: '#ffffff',
             align: 'center'
         }).setOrigin(0.5);
 

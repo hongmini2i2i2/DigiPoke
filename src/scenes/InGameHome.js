@@ -30,7 +30,7 @@ export class InGameHome extends Scene
             'left': Phaser.Input.Keyboard.KeyCodes.A,
             'right': Phaser.Input.Keyboard.KeyCodes.D
         });
-        ///////set player and physics//////
+        ///////set player and physics///////
         this.Player = new player(this);
         this.Player.anims.play('VeemonStatic');
 
@@ -39,7 +39,7 @@ export class InGameHome extends Scene
             this.physics.add.collider(this.Player, layer);
         });
 
-        ///////load tileset and interact with tilesets//////
+        ///////load tileset and interact with tilesets///////
         this.interactiveTileSets = [];
         this.interactiveTileSetsNearBy = [];
         this.nameTags = []; //interactive tile's action name
@@ -59,7 +59,15 @@ export class InGameHome extends Scene
 
         console.log(this.interactiveTileSets);
         console.log(this.Player.x, this.Player.y);
+
+        ///////monster UI setting///////
+        /**this.add.dom(960, 900, 'div' `
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            `)*/
     }
+
     update() 
     {
         this.movePlayerManager();
@@ -97,10 +105,10 @@ export class InGameHome extends Scene
 
         this.interactiveTileSets.forEach( tile => {
             if ( 
-                ( (0 < this.Player.x - tile.x && this.Player.x - tile.x < 30) ||
-                  (0 < tile.x - this.Player.x && tile.x - this.Player.x < 30) )  && 
-                ( (0 < this.Player.y - tile.y && this.Player.y - tile.y < 30) ||
-                  (0 < tile.y - this.Player.y && tile.y - this.Player.y < 30) ) 
+                ( (0 < this.Player.x - tile.x && this.Player.x - tile.x < 70) ||
+                  (0 < tile.x - this.Player.x && tile.x - this.Player.x < 70) )  && 
+                ( (0 < this.Player.y - tile.y && this.Player.y - tile.y < 70) ||
+                  (0 < tile.y - this.Player.y && tile.y - this.Player.y < 70) ) 
             ) {
                 this.interactiveTileSetsNearBy.push({
                     x: tile.x,
@@ -109,21 +117,14 @@ export class InGameHome extends Scene
                 });
             }
         });
-
-        // no nearby interactive tile == hide nametag
-        if(this.interactiveTileSetsNearBy.length === 0) {
-            this.nameTags.length = 0;
-            if(this.nameTag) { //only when the nametag is exist
-                this.nameTag.setVisible(false);
-            }
-        }
     }
 
     addNameTag() {
-
+        // no nearby interactive tile == hide nametag
         if (this.interactiveTileSetsNearBy.length === 0) {
             if (this.nameTag) {
-                this.nameTag.setVisible(false);
+                this.nameTag.destroy();
+                this.nameTag = null; 
             }
             this.nameTags.length = 0;
             return;
@@ -134,26 +135,29 @@ export class InGameHome extends Scene
             let tile = this.interactiveTileSetsNearBy[0];
 
             this.nameTag = this.add.dom(tile.x, tile.y - 50, 'div', `
-
                 background-color: white;
                 border-radius: 3px;
-                color: navy;
-                padding: 5px;
+                border: 1px solid black;
+                color: black;
                 width: 120px;
                 height: 20px;
                 z-index: 0;
                 line-height: 20px;
+                letter-spacing: 2px;
                 text-align: center;
-                font-size: 25px;
-                font-weight: bold;
-                box-shadow: 12px 12px 2px 1px navy;
-
+                font-size: 20px;
+                font-family: "Jersey 10", sans-serif;
+                font-weight: 400;
+                font-style: normal;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                box-shadow: 2px 2px 2px black;
             `, tile.action);
 
             switch(tile.action) {
                 case 'navigate': {
                     this.nameTag.setPosition(175, 90);
-                    this.nameTag.setText('Adventure');
+                    this.nameTag.setText('Adventure');  
                     break;
                 }
                 case 'sleep': {
@@ -172,9 +176,18 @@ export class InGameHome extends Scene
                     break;
                 }
             }
+
+                this.nameTagTween = this.tweens.add({
+                    targets: this.nameTag,
+                    x: '+=7',
+                    duration: 1500,
+                    ease: 'Sine.easeInOut',
+                    yoyo: true,
+                    repeat: -1
+            });
         }
-        this.nameTag.setAlpha(0.7);
-        this.nameTag.setVisible(true);
+        this.nameTag.node.style.opacity = "1";
         this.nameTags.push(this.nameTag);
     }
+
 }

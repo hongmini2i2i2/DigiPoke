@@ -19,12 +19,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.world.enable(this);
         scene.add.existing(this);
 
-        this.setOrigin(0.5, 0.5);
+        this.setOrigin(0.5, 0.5); //이미지 스프라이트 기준점 설정
         this.isMoving = false;
         this.moveTimeout = null;
 
         //this.body.setSize(this.width * 0.5, this.height * 0.5);
-        this.body.setOffset(this.width * 0.1, this.height * 0.8);
+        this.body.setOffset(this.width * 0.1, this.height * 0.8); //히트박스 (충돌지점) 설정
 
 
         this.setDrag(2500, 2500); // set resist, prevent sliding by velocity
@@ -118,7 +118,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                         break;
                 }
                 this.moveTimeout = null;
-            }, 2000);
+            }, 1800);
         }
     }
 }
