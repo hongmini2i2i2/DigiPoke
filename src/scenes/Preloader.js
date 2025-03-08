@@ -5,6 +5,7 @@ import VeemonWalk2 from '../assets/spritesheets/Veemon/Veemon_2.png';
 import VeemonStatic2 from '../assets/spritesheets/Veemon/Veemon_10.png';
 import homeBackground from '../assets/images/HomeBackgroundMap.json';
 import backgroundTileAsset from '../assets/images/pixel-cyberpunk-interior-resize.png';
+//import VeemonPortrait from '../assets/images/VeemonPortrait.png';
 
 export class Preloader extends Scene
 {
@@ -45,6 +46,7 @@ export class Preloader extends Scene
         // Playing Scene Home Background
         this.load.image("backgroundTile", backgroundTileAsset);
         this.load.tilemapTiledJSON('homeBackground', homeBackground);
+        //this.load.image("VeemonPortrait", VeemonPortrait);
     }
 
     create ()

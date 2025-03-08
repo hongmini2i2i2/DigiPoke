@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import player, { Direction } from '../characters/Player';
+import MonsterUI from '../ui/inGameHomeUI';
 
 export class InGameHome extends Scene
 {
@@ -61,14 +62,10 @@ export class InGameHome extends Scene
         console.log(this.Player.x, this.Player.y);
 
         ///////monster UI setting///////
-        /**this.add.dom(960, 900, 'div' `
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            `)*/
+        this.monsterUI = new MonsterUI(this, 630, 850);
     }
 
-    update() 
+    update()
     {
         this.movePlayerManager();
         this.interactiveTileManager();
