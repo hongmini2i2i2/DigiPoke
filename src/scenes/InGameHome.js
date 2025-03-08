@@ -34,6 +34,7 @@ export class InGameHome extends Scene
         ///////set player and physics///////
         this.Player = new player(this);
         this.Player.anims.play('VeemonStatic');
+        this.Player.setInteractive();
 
         this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
         this.layers.forEach(layer => {
@@ -62,7 +63,16 @@ export class InGameHome extends Scene
         console.log(this.Player.x, this.Player.y);
 
         ///////monster UI setting///////
-        this.monsterUI = new MonsterUI(this, 630, 850);
+        this.monsterClickCount = 0;
+
+        this.Player.on('pointerdown', () => {
+            if (this.monsterClickCount === 0){
+                this.monsterUI = new MonsterUI(this, 630, 850);
+                this.monsterClickCount += 1;
+            } else {
+                this.showMonsterUI();
+            }
+        })
     }
 
     update()
@@ -187,4 +197,12 @@ export class InGameHome extends Scene
         this.nameTags.push(this.nameTag);
     }
 
+    showMonsterUI() {
+        if (this.monsterClickCount % 2 == 1) {
+            this.monsterUI.dom.setVisible(false);
+        } else {
+            this.monsterUI.dom.setVisible(true);
+        }
+        this.monsterClickCount += 1;
+    }
 }
