@@ -1,6 +1,7 @@
 import { Scene } from 'phaser';
 import player, { Direction } from '../characters/Player';
 import MonsterUI from '../ui/inGameHomeUI';
+import NavigateUI from '../ui/navigateUI';
 
 export class InGameHome extends Scene
 {
@@ -25,11 +26,12 @@ export class InGameHome extends Scene
         });
 
         this.cursorKeys = this.input.keyboard.createCursorKeys(); //arrow key
-        this.wasdKeys = this.input.keyboard.addKeys({
+        this.keyboardKeys = this.input.keyboard.addKeys({
             'up': Phaser.Input.Keyboard.KeyCodes.W, 
             'down': Phaser.Input.Keyboard.KeyCodes.S,
             'left': Phaser.Input.Keyboard.KeyCodes.A,
-            'right': Phaser.Input.Keyboard.KeyCodes.D
+            'right': Phaser.Input.Keyboard.KeyCodes.D,
+            'f': Phaser.Input.Keyboard.KeyCodes.F
         });
         ///////set player and physics///////
         this.Player = new player(this);
@@ -73,6 +75,13 @@ export class InGameHome extends Scene
                 this.showMonsterUI();
             }
         })
+        //////navigate Click UI//////
+        this.nextNavigateClickOK = true;
+        this.navigateUI = new NavigateUI(this, 700, 400);
+        this.navigateUI.dom.setVisible(false);
+        this.input.keyboard.on('keydown-F', () => {
+            this.pressInteractiveTile();
+        });
     }
 
     update()
@@ -86,18 +95,18 @@ export class InGameHome extends Scene
     movePlayerManager() {
         let isMoving = false;
     
-        if (this.cursorKeys.left.isDown || this.wasdKeys.left.isDown) {
+        if (this.cursorKeys.left.isDown || this.keyboardKeys.left.isDown) {
             this.Player.move(Direction.Left);
             isMoving = true;
-        } else if (this.cursorKeys.right.isDown || this.wasdKeys.right.isDown) {
+        } else if (this.cursorKeys.right.isDown || this.keyboardKeys.right.isDown) {
             this.Player.move(Direction.Right);
             isMoving = true;
         }
     
-        if (this.cursorKeys.up.isDown || this.wasdKeys.up.isDown) {
+        if (this.cursorKeys.up.isDown || this.keyboardKeys.up.isDown) {
             this.Player.move(Direction.Up);
             isMoving = true;
-        } else if (this.cursorKeys.down.isDown || this.wasdKeys.down.isDown) {
+        } else if (this.cursorKeys.down.isDown || this.keyboardKeys.down.isDown) {
             this.Player.move(Direction.Down);
             isMoving = true;
         }
@@ -124,6 +133,28 @@ export class InGameHome extends Scene
                 });
             }
         });
+    }
+    
+    pressInteractiveTile() {
+        //navigate == adventure
+        if(this.interactiveTileSetsNearBy.length > 0) {
+            let tile = this.interactiveTileSetsNearBy[0];
+            if(tile.action == "navigate") {
+                if(this.nextNavigateClickOK == true) {
+                    this.navigateUI.dom.setVisible(true);
+                    this.nextNavigateClickOK = false;
+                } else {
+                    this.navigateUI.dom.setVisible(false);
+                    this.nextNavigateClickOK = true;
+                }
+            } else {
+                this.navigateUI.dom.setVisible(false);
+                this.nextNavigateClickOK = true;
+            }
+        } else {
+            this.navigateUI.dom.setVisible(false);
+            this.nextNavigateClickOK = true;
+        }
     }
 
     addNameTag() {

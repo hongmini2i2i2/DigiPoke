@@ -55,6 +55,7 @@ export default class MonsterUI {
             background: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 4px;
+            transition: opacity 0.3s ease;
         }
         .portraitWithName {
             display: flex;
