@@ -21,6 +21,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.setOrigin(0.5, 0.5); //이미지 스프라이트 기준점 설정
         this.isMoving = false;
+        this.isSleeping = false;
+
         this.moveTimeout = null;
 
         //this.body.setSize(this.width * 0.5, this.height * 0.5);
@@ -120,5 +122,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.moveTimeout = null;
             }, 1800);
         }
+    }
+
+    sleep() {
+        this.isMoving = false;
+        this.isSleeping = true;
+        this.anims.play("VeemonSleep", true);
     }
 }

@@ -80,7 +80,10 @@ export class InGameHome extends Scene
         ///////integrated UI environment(except monster UI)///////
         this.uiMap = {
             navigate: new NavigateUI(this, 700, 400),
-            sleep: new SleepUI(this, 925, 500),
+            sleep: new SleepUI(this, 925, 500, () => {
+                this.Player.sleep(); 
+                this.nextClickApprove.sleep = true; 
+            }),
         };
 
         this.nextClickApprove = {
@@ -99,6 +102,7 @@ export class InGameHome extends Scene
         this.uiMap.sleep.dom.setVisible(false);
         this.input.keyboard.on('keydown-F', () => {
             this.pressInteractiveTile("sleep");
+            this.movePlayerManager();
         });
     }
 
@@ -111,6 +115,10 @@ export class InGameHome extends Scene
     }
     ///////Methods///////
     movePlayerManager() {
+        if (this.Player.isSleeping) {
+            return;
+        }
+
         let isMoving = false;
     
         if (this.cursorKeys.left.isDown || this.keyboardKeys.left.isDown) {
@@ -130,7 +138,8 @@ export class InGameHome extends Scene
         }
     
         if (!isMoving) {
-            this.Player.stop();
+            //sleep 일시에는 movePlayerManager 다시 불러와서 여기서 Player stop 호출 못하게 설정
+            this.Player.isSleeping ? () => {} : this.Player.stop();
         }
     }
 
@@ -173,6 +182,8 @@ export class InGameHome extends Scene
             this.nextClickApprove[interactName] = true;
         }
     }
+
+
 
     addNameTag() {
         // no nearby interactive tile == hide nametag
