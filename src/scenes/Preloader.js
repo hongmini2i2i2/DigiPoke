@@ -3,6 +3,10 @@ import logo from '../assets/images/DigiPokeLogoUpScale.png';
 import VeemonWalk1 from '../assets/spritesheets/Veemon/Veemon_1.png';
 import VeemonWalk2 from '../assets/spritesheets/Veemon/Veemon_2.png';
 import VeemonStatic2 from '../assets/spritesheets/Veemon/Veemon_10.png';
+import VeemonSleep1 from '../assets/spritesheets/Veemon/Veemon_13.png';
+import VeemonSleep2 from '../assets/spritesheets/Veemon/Veemon_14.png';
+import VeemonSleep3 from '../assets/spritesheets/Veemon/Veemon_15.png';
+import VeemonSleep4 from '../assets/spritesheets/Veemon/Veemon_16.png';
 import homeBackground from '../assets/images/HomeBackgroundMap.json';
 import backgroundTileAsset from '../assets/images/pixel-cyberpunk-interior-resize.png';
 //import VeemonPortrait from '../assets/images/VeemonPortrait.png';
@@ -43,6 +47,11 @@ export class Preloader extends Scene
         this.load.image('VeemonStatic2', VeemonStatic2);
         this.load.image('VeemonWalk1', VeemonWalk1);
         this.load.image('VeemonWalk2', VeemonWalk2);
+        // Veemon Sleep image
+        this.load.image('VeemonSleep1', VeemonSleep1);
+        this.load.image('VeemonSleep2', VeemonSleep2);
+        this.load.image('VeemonSleep3', VeemonSleep3);
+        this.load.image('VeemonSleep4', VeemonSleep4);
         // Playing Scene Home Background
         this.load.image("backgroundTile", backgroundTileAsset);
         this.load.tilemapTiledJSON('homeBackground', homeBackground);
@@ -55,7 +64,7 @@ export class Preloader extends Scene
         //  For example, you can define global animations here, so we can use them in other scenes.
 
         //  Move to the MainMenu. You could also swap this for a Scene Transition, such as a camera fade.
-        this.scene.start('MainMenu');
+        this.scene.start('InGameHome');
         
         this.anims.create({
             key: 'VeemonWalk',
@@ -82,6 +91,17 @@ export class Preloader extends Scene
                 { key: 'VeemonStatic'}
             ],
             frameRate: 2
+        });
+
+        this.anims.create({
+            key: 'VeemonSleep',
+            frames: [
+                { key: 'VeemonSleep1'},
+                { key: 'VeemonSleep2'},
+                { key: 'VeemonSleep3'},
+                { key: 'VeemonSleep4'}
+            ],
+            frameRate: 4
         });
     }
 }

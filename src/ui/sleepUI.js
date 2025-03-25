@@ -1,4 +1,4 @@
-export default class NavigateUI {
+export default class SleepUI {
     /**
      * @param {Phaser.Scene} scene
      * @param {number} x 
@@ -10,13 +10,11 @@ export default class NavigateUI {
       this.y = y;
   
       const html = `
-       <div class="navigatorContainer">
-        <div class="title">Navigator</div>
+       <div class="sleepContainer">
+        <div class="title">Sleep</div>
         <div class="wrapButton">
-            <div class="button">Adventure</div>
-            <div class="button">Dungeon</div>
-            <div class="button">Training</div>
-            <div class="button">PvP</div>
+            <div class="button">YES</div>
+            <div class="button">NO</div>
         </div>
         </div>
        </div>
@@ -26,7 +24,7 @@ export default class NavigateUI {
 
     const style = `
     <style>
-        .navigatorContainer{
+        .sleepContainer{
             opacity: 1;
             display: flex;
             box-sizing: border-box;
@@ -35,11 +33,11 @@ export default class NavigateUI {
             background-color: rgba(5, 14, 39, 0.9);
             border-radius: 16px;
             width: 580px;
-            height: 426px;
+            height: 268px;
             transition: opacity 0.3s ease;
         }
 
-        .navigatorContainer .title {
+        .sleepContainer .title {
             align-items: center;
             justify-content: center;
             font-family: "Jersey 10", sans-serif;

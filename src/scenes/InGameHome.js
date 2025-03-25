@@ -2,6 +2,7 @@ import { Scene } from 'phaser';
 import player, { Direction } from '../characters/Player';
 import MonsterUI from '../ui/inGameHomeUI';
 import NavigateUI from '../ui/navigateUI';
+import SleepUI from '../ui/sleepUI';
 
 export class InGameHome extends Scene
 {
@@ -75,12 +76,29 @@ export class InGameHome extends Scene
                 this.showMonsterUI();
             }
         })
+
+        ///////integrated UI environment(except monster UI)///////
+        this.uiMap = {
+            navigate: new NavigateUI(this, 700, 400),
+            sleep: new SleepUI(this, 925, 500),
+        };
+
+        this.nextClickApprove = {
+            navigate: true, //다음번에 클릭했을때 2번 눌러야하는거 방지
+            sleep: true,
+        }
+
         //////navigate Click UI//////
-        this.nextNavigateClickOK = true;
-        this.navigateUI = new NavigateUI(this, 700, 400);
-        this.navigateUI.dom.setVisible(false);
+        //this.nextNavigateClickOK = true; //다음번에 클릭했을때 2번 눌러야하는거 방지
+        this.uiMap.navigate.dom.setVisible(false);
         this.input.keyboard.on('keydown-F', () => {
-            this.pressInteractiveTile();
+            this.pressInteractiveTile("navigate");
+        });
+        //////sleep Click UI//////
+        //this.nextSleepClickOK = true;
+        this.uiMap.sleep.dom.setVisible(false);
+        this.input.keyboard.on('keydown-F', () => {
+            this.pressInteractiveTile("sleep");
         });
     }
 
@@ -135,25 +153,24 @@ export class InGameHome extends Scene
         });
     }
     
-    pressInteractiveTile() {
-        //navigate == adventure
-        if(this.interactiveTileSetsNearBy.length > 0) {
+    pressInteractiveTile(interactName) {
+        if (this.interactiveTileSetsNearBy.length > 0) {
             let tile = this.interactiveTileSetsNearBy[0];
-            if(tile.action == "navigate") {
-                if(this.nextNavigateClickOK == true) {
-                    this.navigateUI.dom.setVisible(true);
-                    this.nextNavigateClickOK = false;
+            if (tile.action === interactName) {
+                if (this.nextClickApprove[interactName]) {
+                    this.uiMap[interactName].dom.setVisible(true);
+                    this.nextClickApprove[interactName] = false;
                 } else {
-                    this.navigateUI.dom.setVisible(false);
-                    this.nextNavigateClickOK = true;
+                    this.uiMap[interactName].dom.setVisible(false);
+                    this.nextClickApprove[interactName] = true;
                 }
             } else {
-                this.navigateUI.dom.setVisible(false);
-                this.nextNavigateClickOK = true;
+                this.uiMap[interactName].dom.setVisible(false);
+                this.nextClickApprove[interactName] = true;
             }
         } else {
-            this.navigateUI.dom.setVisible(false);
-            this.nextNavigateClickOK = true;
+            this.uiMap[interactName].dom.setVisible(false);
+            this.nextClickApprove[interactName] = true;
         }
     }
 
