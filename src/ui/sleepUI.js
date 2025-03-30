@@ -23,16 +23,17 @@ export default class SleepUI {
 
         this.dom = scene.add.dom(this.x, this.y).createFromHTML(html);
 
-        // 이벤트 리스너 추가
         this.dom.getChildByID('sleepYes').addEventListener('click', () => {
             if (this.onSleepCallback) {
                 this.onSleepCallback();
             }
             this.dom.setVisible(false); 
+            this.scene.nextClickApprove.sleep = true; //f 한번 더 눌러야되는거 방지
         });
 
         this.dom.getChildByID('sleepNo').addEventListener('click', () => {
             this.dom.setVisible(false);
+            this.scene.nextClickApprove.sleep = true;
         });
 
         const style = `

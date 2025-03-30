@@ -97,6 +97,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.isMoving ? this.anims.stop() : null;
 
             this.moveTimeout = setTimeout(() => {
+                if(this.isSleeping) {
+                    return;
+                }
                 let randomAction = Phaser.Math.Between(0, 4);
                 switch (randomAction) {
                     case 0: 
@@ -125,8 +128,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     sleep() {
-        this.isMoving = false;
         this.isSleeping = true;
-        this.anims.play("VeemonSleep", true);
+        this.isMoving = false;
+        this.anims.play("VeemonSleep");
     }
 }

@@ -115,10 +115,25 @@ export class InGameHome extends Scene
     }
     ///////Methods///////
     movePlayerManager() {
-        if (this.Player.isSleeping) {
-            return;
+        const anyKeyDown = (
+            Phaser.Input.Keyboard.JustDown(this.cursorKeys.up) || 
+            Phaser.Input.Keyboard.JustDown(this.cursorKeys.down) || 
+            Phaser.Input.Keyboard.JustDown(this.cursorKeys.left) || 
+            Phaser.Input.Keyboard.JustDown(this.cursorKeys.right) || 
+            Phaser.Input.Keyboard.JustDown(this.keyboardKeys.up) || 
+            Phaser.Input.Keyboard.JustDown(this.keyboardKeys.down) || 
+            Phaser.Input.Keyboard.JustDown(this.keyboardKeys.left) || 
+            Phaser.Input.Keyboard.JustDown(this.keyboardKeys.right)
+        );
+    
+        if (this.Player.isSleeping && anyKeyDown) {
+            this.Player.isSleeping = false;
+            this.Player.anims.play('VeemonStatic');
+            this.Player.setVelocity(0, 0); 
+        } else if (this.Player.isSleeping) {
+            return; 
         }
-
+    
         let isMoving = false;
     
         if (this.cursorKeys.left.isDown || this.keyboardKeys.left.isDown) {
@@ -137,9 +152,8 @@ export class InGameHome extends Scene
             isMoving = true;
         }
     
-        if (!isMoving) {
-            //sleep 일시에는 movePlayerManager 다시 불러와서 여기서 Player stop 호출 못하게 설정
-            this.Player.isSleeping ? () => {} : this.Player.stop();
+        if (!isMoving && !this.Player.isSleeping) {
+            this.Player.stop();
         }
     }
 
