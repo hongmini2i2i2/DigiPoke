@@ -3,6 +3,7 @@ import player, { Direction } from '../characters/Player';
 import MonsterUI from '../ui/inGameHomeUI';
 import NavigateUI from '../ui/navigateUI';
 import SleepUI from '../ui/sleepUI';
+import StatsUI from '../ui/statsUI';
 
 export class InGameHome extends Scene
 {
@@ -84,25 +85,30 @@ export class InGameHome extends Scene
                 this.Player.sleep(); 
                 this.nextClickApprove.sleep = true; 
             }),
+            stats: new StatsUI(this,700, 400)
         };
 
         this.nextClickApprove = {
             navigate: true, //다음번에 클릭했을때 2번 눌러야하는거 방지
             sleep: true,
+            stats: true
         }
 
         //////navigate Click UI//////
-        //this.nextNavigateClickOK = true; //다음번에 클릭했을때 2번 눌러야하는거 방지
         this.uiMap.navigate.dom.setVisible(false);
         this.input.keyboard.on('keydown-F', () => {
             this.pressInteractiveTile("navigate");
         });
         //////sleep Click UI//////
-        //this.nextSleepClickOK = true;
         this.uiMap.sleep.dom.setVisible(false);
         this.input.keyboard.on('keydown-F', () => {
             this.pressInteractiveTile("sleep");
             this.movePlayerManager();
+        });
+        //////stats Click UI//////
+        this.uiMap.stats.dom.setVisible(false);
+        this.input.keyboard.on('keydown-F', () => {
+            this.pressInteractiveTile("stats");
         });
     }
 
