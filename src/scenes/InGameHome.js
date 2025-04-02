@@ -91,7 +91,8 @@ export class InGameHome extends Scene
         this.nextClickApprove = {
             navigate: true, //다음번에 클릭했을때 2번 눌러야하는거 방지
             sleep: true,
-            stats: true
+            stats: true,
+            eat: true
         }
 
         //////navigate Click UI//////
@@ -109,6 +110,12 @@ export class InGameHome extends Scene
         this.uiMap.stats.dom.setVisible(false);
         this.input.keyboard.on('keydown-F', () => {
             this.pressInteractiveTile("stats");
+        });
+        /////eat Click/////
+        this.input.keyboard.on('keydown-F', () => {
+            //pressInteractiveTile은 ui관련 메소드라 필요 X
+            this.pressInteractiveTile("eat");
+            this.movePlayerManager();
         });
     }
 
@@ -132,11 +139,11 @@ export class InGameHome extends Scene
             Phaser.Input.Keyboard.JustDown(this.keyboardKeys.right)
         );
     
-        if (this.Player.isSleeping && anyKeyDown) {
-            this.Player.isSleeping = false;
+        if (this.Player.isInteracting && anyKeyDown) {
+            this.Player.isInteracting = false;
             this.Player.anims.play('VeemonStatic');
             this.Player.setVelocity(0, 0); 
-        } else if (this.Player.isSleeping) {
+        } else if (this.Player.isInteracting) {
             return; 
         }
     
@@ -158,7 +165,7 @@ export class InGameHome extends Scene
             isMoving = true;
         }
     
-        if (!isMoving && !this.Player.isSleeping) {
+        if (!isMoving && !this.Player.isInteracting) {
             this.Player.stop();
         }
     }
@@ -185,20 +192,28 @@ export class InGameHome extends Scene
     pressInteractiveTile(interactName) {
         if (this.interactiveTileSetsNearBy.length > 0) {
             let tile = this.interactiveTileSetsNearBy[0];
+
+            if (tile.action === 'eat') {
+                this.Player.eat();
+                return;
+            }
+
             if (tile.action === interactName) {
+
                 if (this.nextClickApprove[interactName]) {
-                    this.uiMap[interactName].dom.setVisible(true);
+                    this.uiMap[interactName] ? this.uiMap[interactName].dom.setVisible(true) : () => {}; 
                     this.nextClickApprove[interactName] = false;
                 } else {
-                    this.uiMap[interactName].dom.setVisible(false);
+                    this.uiMap[interactName] ? this.uiMap[interactName].dom.setVisible(false) : () => {};
                     this.nextClickApprove[interactName] = true;
                 }
+
             } else {
-                this.uiMap[interactName].dom.setVisible(false);
+                this.uiMap[interactName] ? this.uiMap[interactName].dom.setVisible(false) : () => {}; //ui 띄운 상태로 다른 interactive tile에 가서 f눌렀을때 기존 ui 없애기 ... f 누르면 모든 interactivetile이 다 이거 실행해서 다른거는 없어질 수 있는거.
                 this.nextClickApprove[interactName] = true;
             }
         } else {
-            this.uiMap[interactName].dom.setVisible(false);
+            this.uiMap[interactName] ? this.uiMap[interactName].dom.setVisible(false) : () => {}; //interactive tile 밖에서 f 눌렀을때 ui 없애기.
             this.nextClickApprove[interactName] = true;
         }
     }
@@ -243,7 +258,7 @@ export class InGameHome extends Scene
             switch(tile.action) {
                 case 'navigate': {
                     this.nameTag.setPosition(175, 90);
-                    this.nameTag.setText('Adventure');  
+                    this.nameTag.setText('Navigator');  
                     break;
                 }
                 case 'sleep': {

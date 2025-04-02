@@ -2,11 +2,14 @@ import { Scene } from 'phaser';
 import logo from '../assets/images/DigiPokeLogoUpScale.png';
 import VeemonWalk1 from '../assets/spritesheets/Veemon/Veemon_1.png';
 import VeemonWalk2 from '../assets/spritesheets/Veemon/Veemon_2.png';
-import VeemonStatic2 from '../assets/spritesheets/Veemon/Veemon_10.png';
+import VeemonStatic2 from '../assets/spritesheets/Veemon/Veemon_1-2.png';
+import VeemonStatic3 from '../assets/spritesheets/Veemon/Veemon_10.png';
 import VeemonSleep1 from '../assets/spritesheets/Veemon/Veemon_13.png';
 import VeemonSleep2 from '../assets/spritesheets/Veemon/Veemon_14.png';
 import VeemonSleep3 from '../assets/spritesheets/Veemon/Veemon_15.png';
 import VeemonSleep4 from '../assets/spritesheets/Veemon/Veemon_16.png';
+import VeemonEat1 from '../assets/spritesheets/Veemon/Veemon_9.png';
+import VeemonEat2 from '../assets/spritesheets/Veemon/Veemon_10.png';
 import homeBackground from '../assets/images/HomeBackgroundMap.json';
 import backgroundTileAsset from '../assets/images/pixel-cyberpunk-interior-resize.png';
 //import VeemonPortrait from '../assets/images/VeemonPortrait.png';
@@ -43,8 +46,9 @@ export class Preloader extends Scene
         //  Stting path - Load the assets for the game - Replace with your own assets
         this.load.image('logo', logo);
         // Veemon Walk SpriteSheet individual image
-        this.load.image('VeemonStatic', VeemonWalk1);
+        this.load.image('VeemonStatic1', VeemonWalk1);
         this.load.image('VeemonStatic2', VeemonStatic2);
+        this.load.image('VeemonStatic3', VeemonStatic3);
         this.load.image('VeemonWalk1', VeemonWalk1);
         this.load.image('VeemonWalk2', VeemonWalk2);
         // Veemon Sleep image
@@ -52,10 +56,12 @@ export class Preloader extends Scene
         this.load.image('VeemonSleep2', VeemonSleep2);
         this.load.image('VeemonSleep3', VeemonSleep3);
         this.load.image('VeemonSleep4', VeemonSleep4);
+        // Veemon Eat image
+        this.load.image("VeemonEat1", VeemonEat1);
+        this.load.image("VeemonEat2", VeemonEat2);
         // Playing Scene Home Background
         this.load.image("backgroundTile", backgroundTileAsset);
         this.load.tilemapTiledJSON('homeBackground', homeBackground);
-        //this.load.image("VeemonPortrait", VeemonPortrait);
     }
 
     create ()
@@ -71,6 +77,7 @@ export class Preloader extends Scene
             frames: [
                 { key: 'VeemonWalk2'},
                 { key: 'VeemonWalk1'}
+
             ],
             frameRate: 8
         })
@@ -79,18 +86,31 @@ export class Preloader extends Scene
             key: 'VeemonWalkRandom',
             frames: [
                 { key: 'VeemonWalk2'},
-                { key: 'VeemonWalk1'}
+                { key: 'VeemonStatic1'},
+                { key: 'VeemonStatic2'},
+                { key: 'VeemonStatic1'},
+                { key: 'VeemonStatic1'},
+                { key: 'VeemonStatic2'},
+                { key: 'VeemonStatic1'},
+                { key: 'VeemonStatic2'},
+                { key: 'VeemonStatic1'},
+                { key: 'VeemonStatic2'},
+                { key: 'VeemonStatic1'},
+                { key: 'VeemonStatic2'}
             ],
-            frameRate: 2
+            frameRate: 4,
         })
 
         this.anims.create({
             key: 'VeemonStatic',
             frames: [
-                { key: 'VeemonStatic2' },
-                { key: 'VeemonStatic'}
+                { key: 'VeemonStatic2'},
+                { key: 'VeemonStatic1'},
+                { key: 'VeemonStatic2'},
+                { key: 'VeemonStatic1'}
             ],
-            frameRate: 2
+            frameRate: 3,
+            repeat: -1
         });
 
         this.anims.create({
@@ -100,6 +120,16 @@ export class Preloader extends Scene
                 { key: 'VeemonSleep2'},
                 { key: 'VeemonSleep3'},
                 { key: 'VeemonSleep4'}
+            ],
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'VeemonEat',
+            frames: [
+                { key: 'VeemonEat1'},
+                { key: 'VeemonEat2'}
             ],
             frameRate: 2,
             repeat: -1

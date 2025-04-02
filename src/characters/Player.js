@@ -21,7 +21,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.setOrigin(0.5, 0.5); //이미지 스프라이트 기준점 설정
         this.isMoving = false;
-        this.isSleeping = false;
+        this.isInteracting = false;
 
         this.moveTimeout = null;
 
@@ -89,47 +89,55 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     stop() {
-        if (!this.moveTimeout) {
-            this.isMoving = false;
-            if (this.isMoving) return;
-
-            this.setVelocity(0, 0);
-            this.isMoving ? this.anims.stop() : null;
-
-            this.moveTimeout = setTimeout(() => {
-                if(this.isSleeping) {
-                    return;
-                }
-                let randomAction = Phaser.Math.Between(0, 4);
-                switch (randomAction) {
-                    case 0: 
-                        this.anims.play('VeemonStatic');
-                        break;
-                    case 1:
-                        this.randomMove(Direction.Left);
-                        this.randomMoveSetting();
-                        break;
-                    case 2:
-                        this.randomMove(Direction.Right);
-                        this.randomMoveSetting();
-                        break;
-                    case 3:
-                        this.randomMove(Direction.Up);
-                        this.randomMoveSetting();
-                        break;
-                    case 4:
-                        this.randomMove(Direction.Down);
-                        this.randomMoveSetting();
-                        break;
-                }
-                this.moveTimeout = null;
-            }, 1800);
+        this.setVelocity(0, 0);
+        this.isMoving = false;
+        
+        this.anims.play('VeemonStatic', true);
+    
+        if (this.moveTimeout) {
+            clearTimeout(this.moveTimeout);
+            this.moveTimeout = null;
         }
+    
+        this.moveTimeout = setTimeout(() => {
+            if (this.isInteracting) {
+                return;
+            }
+            let randomAction = Phaser.Math.Between(0, 4);
+            switch (randomAction) {
+                case 0: 
+                    this.anims.play('VeemonStatic');
+                    break;
+                case 1:
+                    this.randomMove(Direction.Left);
+                    this.randomMoveSetting();
+                    break;
+                case 2:
+                    this.randomMove(Direction.Right);
+                    this.randomMoveSetting();
+                    break;
+                case 3:
+                    this.randomMove(Direction.Up);
+                    this.randomMoveSetting();
+                    break;
+                case 4:
+                    this.randomMove(Direction.Down);
+                    this.randomMoveSetting();
+                    break;
+            }
+            this.moveTimeout = null;
+        }, 2500);
     }
 
     sleep() {
-        this.isSleeping = true;
+        this.isInteracting = true;
         this.isMoving = false;
         this.anims.play("VeemonSleep");
+    }
+
+    eat() {
+        this.isInteracting = true;
+        this.isMoving = false;
+        this.anims.play("VeemonEat");
     }
 }
